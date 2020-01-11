@@ -1,0 +1,15 @@
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+
+<h1>{{ myPerson01.name }}</h1>
+
+<br/>
+
+<img src="{{ myPerson01.image.url}}" height=100 width=100 />
+
+
+
+<br/>
+<a href="{% url 'myPerson:index' %}">Go Back to myPerson Idex</a>
+

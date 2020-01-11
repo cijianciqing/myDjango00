@@ -1,0 +1,39 @@
+
+{% extends "app03/dashboard.html" %}
+
+{% block myMain %}
+    <table border="1">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>ID</th>
+        <th>名字</th>
+        <th>作品</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for author in author_list %}
+        <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ author.id }}</td>
+        <td>{{ author.name }}</td>
+        <td>
+            {% for book in author.books.all %}
+                {{ book.title }}&nbsp;
+        {% endfor %}
+        </td>
+        <td>
+            <a href="{% url 'app02:authorDelete' %}?id={{ author.id }}">删除</a>
+            <a href="{% url 'app02:authorEdit' %}?id={{ author.id }}">编辑</a>
+        </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
+<a href="{% url 'app02:authorAdd' %}">添加新的作者</a>
+
+<h1>所有的作者</h1>
+

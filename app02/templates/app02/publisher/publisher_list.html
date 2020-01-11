@@ -1,0 +1,34 @@
+
+
+
+<br/>
+<table border="1">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>id</th>
+        <th>出版社名称</th>
+        <th>书名</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for publisher in publisher_list %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ publisher.id }}</td>
+            <td>{{ publisher.name }}</td>
+            <td>{% for book in publisher.book_set.all %}
+                    {{ book.title }}
+                {% endfor %}
+            </td>
+            <td>
+                <a class="btn btn-danger" href="{% url 'app02:publisherDelete' %}?id={{ publisher.id }}">删除</a>
+                <a class="btn btn-info" href="{% url 'app02:publisherEdit' %}?id={{ publisher.id }}">编辑</a>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<br/>
+<a href="{% url 'app02:publisherAdd'%}">新增myPerson</a>
