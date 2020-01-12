@@ -6,7 +6,7 @@
         }
     </style>
 {% endblock %}
-
+{% block table00_css %}active{% endblock %}
 {% block myMain %}
     <div id="toolbar">
         <button id="remove" class="btn btn-danger" disabled>
@@ -15,6 +15,7 @@
     </div>
     <table
             id="table"
+            class="table table-striped"
             data-toolbar="#toolbar"
             data-search="true"
             data-show-refresh="true"
@@ -65,7 +66,7 @@
         }
 
         function operateFormatter(value, row, index) {
-            return [
+           return [
                 '<a class="like" href="javascript:void(0)" title="Like">',
                 '<i class="glyphicon glyphicon-heart"></i>',
                 '</a>  ',
@@ -106,7 +107,7 @@
 
         function initTable() {
             $table.bootstrapTable('destroy').bootstrapTable({
-                height: 550,
+                {#height: 550,#}
 
                 columns: [
                     [{
@@ -135,7 +136,7 @@
                         footerFormatter: totalNameFormatter,
                         align: 'center'
                     }, {
-                        field: 'addr',
+                        field: 'price',
                         title: 'Item Price',
                         sortable: true,
                         align: 'center',

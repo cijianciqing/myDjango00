@@ -6,7 +6,7 @@
         }
     </style>
 {% endblock %}
-
+{% block table01_css %}active{% endblock %}
 {% block myMain %}
     <div id="toolbar">
         <button id="remove" class="btn btn-danger" disabled>
@@ -15,6 +15,7 @@
     </div>
     <table
             id="table"
+            class="table table-striped"
             data-toolbar="#toolbar"
             data-search="true"
             data-show-refresh="true"
@@ -30,11 +31,12 @@
             data-show-pagination-switch="true"
             data-pagination="true"
             data-id-field="id"
-            data-page-list="[10, 25, 50, 100, all]"
-            data-show-footer="true"
-            data-side-pagination="server"
-            data-url="https://examples.wenzhixin.net.cn/examples/bootstrap_table/data"
-{#            data-url="{% url 'app03:publisherList' %}"#}
+            data-page-list="[2, 4, 6, all]"
+{#            data-show-footer="true"#}
+{#            默认为客户端分页#}
+{#            data-side-pagination="server"#}
+{#            data-url="https://examples.wenzhixin.net.cn/examples/bootstrap_table/data"#}
+            data-url="{% url 'app03:publisherList' %}"
             data-response-handler="responseHandler">
     </table>
 
@@ -87,22 +89,7 @@
             }
         }
 
-        function totalTextFormatter(data) {
-            return 'Total'
-        }
 
-        function totalNameFormatter(data) {
-            return data.length
-        }
-
-        function totalPriceFormatter(data) {
-            var field = this.field
-            return '$' + data.map(function (row) {
-                return +row[field].substring(1)
-            }).reduce(function (sum, i) {
-                return sum + i
-            }, 0)
-        }
 
         function initTable() {
             $table.bootstrapTable('destroy').bootstrapTable({
@@ -122,7 +109,6 @@
                         align: 'center',
                         valign: 'middle',
                         sortable: true,
-                        footerFormatter: totalTextFormatter
                     }, {
                         title: 'Item Detail',
                         colspan: 3,
@@ -132,14 +118,12 @@
                         field: 'name',
                         title: 'Item Name',
                         sortable: true,
-                        footerFormatter: totalNameFormatter,
                         align: 'center'
                     }, {
                         field: 'addr',
                         title: 'Item Price',
                         sortable: true,
                         align: 'center',
-                        footerFormatter: totalPriceFormatter
                     }, {
                         field: 'operate',
                         title: 'Item Operate',
