@@ -13,3 +13,6 @@ def publisher_list(request):
         responseData.append(publisherJson)
     print(responseData)
     return JsonResponse({"rows": responseData})
+
+def registerFilter(request):
+    return render(request,'app03/registerFilterDemo.html',context={"arg01": "aaabbaaa"})

@@ -20,7 +20,5 @@ urlpatterns = [
     path('delete/<int:myPersonID>/', views.delete, name='delete'),
     # 修改 get + post
     path('update/<int:myPersonID>/', views.update, name='update'),
-    # re_path('update/<int:myPersonID>', views.update, name=''),
-    # re_path('update/(?P<myPersonID>\d+)/', views.update, name='update'),
-    # path('update/2/', views.update00, name='update00'),
+
 ]
