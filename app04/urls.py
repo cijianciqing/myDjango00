@@ -18,4 +18,6 @@ urlpatterns = [
     path('table01/', TemplateView.as_view(template_name="app04/bootstrapTable01.html"), name='table01'),
     path('table02/', TemplateView.as_view(template_name="app04/bootstrapTable02.html"), name='table02'),
     path('getAllEmployees/', views.getAll,name='getAll'),
+
+    path('delEmployee/', views.deletEmployee,name='deleteEmployee'),
 ]

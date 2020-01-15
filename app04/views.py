@@ -1,4 +1,4 @@
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render
 # Create your views here.
 from app04 import models
@@ -14,3 +14,10 @@ def getAll(request):
         responseData.append(employeeJson)
     print(responseData)
     return JsonResponse({"rows": responseData})
+
+
+def deletEmployee(request):
+    employeeID = request.GET.get("employeeID",0)
+    models.Employee.objects.get(id=employeeID).delete()
+
+    return JsonResponse(data={"deleteResult": "ok"})
