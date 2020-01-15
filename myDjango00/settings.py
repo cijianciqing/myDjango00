@@ -39,19 +39,22 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'app01.apps.App01Config',
     'app02.apps.App02Config',
-    'app03.apps.App03Config'
+    'app03.apps.App03Config',
+    'app04.apps.App04Config'
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    # 'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
+#######################################################################
+##########################URL设置######################################
+#######################################################################
 ROOT_URLCONF = 'myDjango00.urls'
 
 TEMPLATES = [
@@ -75,7 +78,9 @@ WSGI_APPLICATION = 'myDjango00.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-
+#######################################################################
+##########################数据库设置###################################
+#######################################################################
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -106,8 +111,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
-#设置session
+#######################################################################
+##########################设置session#################################
+#######################################################################
 SESSION_COOKIE_AGE =10*60# 设置过期时间10分钟，默认为两周
 # SESSION_SAVE_EVERY_REQUEST = True
 SESSION_EXPIRE_AT_BROWSER_CLOSE =True# 设置关闭浏览器时失效
@@ -125,7 +131,9 @@ USE_L10N = True
 
 USE_TZ = True
 
-
+#######################################################################
+##########################静态文件设置#################################
+#######################################################################
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 #静态资源的url
@@ -142,3 +150,79 @@ MEDIA_URL = '/media/'
 # 配置 MEDIA_ROOT 作为你上传文件在服务器中的基本路径
 MEDIA_ROOT = os.path.join(BASE_DIR, 'myUpload') # 注意此处不要写成列表或元组的形式
 # 配置 MEDIA_URL 作为公用 URL，指向上传文件的基本路径
+
+#######################################################################
+###################### logging日志配置#################################
+#######################################################################
+LOG_DIR = os.path.join(BASE_DIR, 'myLog')
+if not os.path.exists(LOG_DIR):
+    os.makedirs(LOG_DIR)
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'formatters': {# 日志格式
+        'standard': {
+            'format': '%(asctime)s [%(threadName)s:%(thread)d] '
+                      '[%(pathname)s:%(funcName)s:%(lineno)d] [%(levelname)s]- %(message)s'
+        },
+        'simple': {
+            'format': '%(asctime)s %(message)s'
+        }
+    },
+    'filters': {# 过滤器
+        'test':{
+            '()': 'myDjango00.config.myLogFilter.TestFilter'
+        }
+    },
+    'handlers': {# 处理器
+        'null': {
+            'level': 'DEBUG',
+            'class': 'logging.NullHandler',
+        },
+        'error_handler': {# error内容输出到另外的文件
+            'level':'DEBUG',
+            'class':'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(LOG_DIR,'error.log'),#日志输出文件
+            'maxBytes':1024*1024*1,#文件大小
+            'backupCount': 5,#备份份数
+            'formatter':'standard',#使用哪种formatters日志格式
+            'encoding': 'utf8',
+        },
+        'file_handler': {# 记录到日志文件(需要创建对应的目录，否则会出错)
+            'level':'DEBUG',
+            'class':'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(LOG_DIR,'service.log'),# 日志输出文件
+            'maxBytes':1024*1024*1,#文件大小
+            'backupCount': 5,#备份份数
+            'formatter':'standard',#使用哪种formatters日志格式
+            'encoding': 'utf8',
+        },
+        'console_handler':{# 输出到控制台
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'standard',
+        },
+        'statistics_handler':{
+            'level':'DEBUG',
+            'class':'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(LOG_DIR,'statistics.log'),
+            'maxBytes':1024*1024*5,
+            'backupCount': 5,
+            'formatter':'simple',
+            'encoding': 'utf8',
+        }
+    },
+    'loggers': {# logging管理器
+        'django': {
+            # 'handlers': ['console_handler', 'file_handler', 'error_handler'],
+            'handlers': ['console_handler', 'file_handler'],
+            'filters': ['test'],
+            'level': 'DEBUG'
+        },
+        'statistics': {
+            'handlers': ['statistics_handler'],
+            'level': 'DEBUG'
+        }
+    }
+}

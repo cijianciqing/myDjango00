@@ -1,0 +1,189 @@
+{% extends "app04/dashboard.html" %}
+{% block myCss %}
+    <style>
+        .like {
+            margin-right: 10px;
+        }
+    </style>
+{% endblock %}
+{% block bootstrapTable01_css %} active{% endblock %}
+{% block myMain %}
+    {#    左上角工具栏#}
+    <div id="toolbar">
+        <button id="remove" class="btn btn-danger" disabled>
+            <i class="glyphicon glyphicon-remove"></i> Delete
+        </button>
+        <button id="ssb" class="btn btn-primary">Submit</button>
+    </div>
+    {#    主表#}
+    <table
+            id="table"
+            class="table table-striped"
+            data-height="600"
+            data-toolbar="#toolbar"
+            data-show-button-icons="true"
+{#            data-show-button-text="true"#}
+            data-search="true"
+            data-search-on-enter-key="true"
+            data-show-refresh="true"
+            data-show-toggle="true"
+            data-show-fullscreen="true"
+            data-show-columns="true"
+            data-show-columns-toggle-all="true"
+            data-click-to-select="true"
+            data-detail-view="true"
+            data-detail-formatter="detailFormatter"
+            data-minimum-count-columns="2"
+            data-show-pagination-switch="true"
+            data-pagination="true"
+            data-id-field="id"
+            data-sort-name="name"
+            data-sort-order="desc"
+            data-page-list="[10, 20, 50, all]"
+            data-page-size="20"
+            {#            data-show-footer="true"#}
+            {#            默认为客户端分页#}
+            {#            data-side-pagination="server"#}
+            data-url="{% url 'app04:getAll' %}"
+{#            data-response-handler="responseHandler"#}
+    >
+    </table>
+
+    <script>
+        var $table = $('#table')
+        var $remove = $('#remove')
+        var selections = []
+        $('#ssb').click(function () {
+            alert(getIdSelections())
+        })
+        {#获取选中的行#}
+
+        function getIdSelections() {
+            return $.map($table.bootstrapTable('getSelections'), function (row) {
+                return row.id
+            })
+        }
+
+        {#处理返回的数据,相当于初始化#}
+
+        {#function responseHandler(res) {#}
+        {#    $.each(res.rows, function (i, row) {#}
+                {#row.state = (parseInt(row.id)%2 == 1)#}
+        {#        row.state = (row.id % 2 == 1)#}
+                {#console.log($.inArray(row.id, selections) !== -1)#}
+                {#console.log(row.id)#}
+                {#console.log(parseInt(row.id)/2)#}
+        {#    })#}
+        {#    return res#}
+        {#}#}
+
+        {#详细信息的显示格式#}
+
+        function detailFormatter(index, row) {
+            var html = []
+            $.each(row, function (key, value) {
+                html.push('<p><b>' + key + ':</b> ' + value + '</p>')
+            })
+            return html.join('')
+        }
+
+        {#操作列的显示格式#}
+
+        function operateFormatter(value, row, index) {
+            return [
+                '<a class="like" href="javascript:void(0)" title="Like">',
+                '<i class="fa fa-heart"></i>',
+                '</a>  ',
+                '<a class="remove" href="javascript:void(0)" title="Remove">',
+                '<i class="fa fa-trash"></i>',
+                '</a>'
+            ].join('')
+        }
+
+        operateEvents001 = {
+            'click .like': function (e, value, row, index) {
+                alert('You click like action, row: ' + JSON.stringify(row))
+            },
+            'click .remove': function (e, value, row, index) {
+                $table.bootstrapTable('remove', {
+                    field: 'id',
+                    values: [row.id]
+                })
+            }
+        }
+
+
+        {#初始化bootstrapTable#}
+
+        function initTable() {
+            $table.bootstrapTable('destroy').bootstrapTable({
+                {#height: 550,#}
+                {#列设置#}
+                columns:
+                    [{
+                        field: 'state',
+                        checkbox: true,
+                        align: 'center',
+                        valign: 'middle'
+                    }, {
+                        title: 'Item ID',
+                        field: 'id',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: true,
+                    }, {
+                        field: 'name',
+                        title: 'Item Name',
+                        sortable: true,
+                        align: 'center'
+                    }, {
+                        field: 'age',
+                        title: 'Item Age',
+                        sortable: true,
+                        align: 'center',
+                    }, {
+                        field: 'address',
+                        title: 'Item Address',
+                        sortable: true,
+                        align: 'center',
+
+                    }, {
+                        field: 'operate',
+                        title: 'Item Operate',
+                        align: 'center',
+                        clickToSelect: false,
+                        events: operateEvents001,
+                        formatter: operateFormatter
+                    }]
+
+            })
+            {#功能未知#}
+            $table.on('check.bs.table uncheck.bs.table ' +
+                'check-all.bs.table uncheck-all.bs.table',
+                function () {
+                    $remove.prop('disabled', !$table.bootstrapTable('getSelections').length)
+
+                    // save your data, here just save the current page
+                    selections = getIdSelections()
+                    // push or splice the selections if you want to save all data selections
+                })
+            $table.on('all.bs.table', function (e, name, args) {
+                console.log(name, args)
+            })
+
+            $remove.click(function () {
+                var ids = getIdSelections()
+                $table.bootstrapTable('remove', {
+                    field: 'id',
+                    values: ids
+                })
+                $remove.prop('disabled', true)
+            })
+        }
+
+        {#执行js#}
+        $(function () {
+            initTable()
+        })
+    </script>
+{% endblock %}

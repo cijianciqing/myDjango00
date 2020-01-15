@@ -16,18 +16,18 @@ def detail(request, myPersonID):
     return render(request, 'app01/myPersonDetail.html', {'myPerson01': myperson})
 
 #通过模型进行文件上传
-# def add(request):
-#     if(request.method == 'POST'):
-#         #这是文件别名
-#         filename=request.POST.get("fileName",default='myFN')
-#         files = request.FILES
-#         for key, uploaded_file in files.items():
-#             myPerson = MyPerson()
-#             myPerson.name = filename
-#             myPerson.image = uploaded_file
-#             myPerson.save()
-#         return redirect("myPerson:index")
-#     return render(request, 'app01/myPersonAdd.html')
+def add(request):
+    if(request.method == 'POST'):
+        #这是文件别名
+        filename=request.POST.get("fileName",default='myFN')
+        files = request.FILES
+        for key, uploaded_file in files.items():
+            myPerson = MyPerson()
+            myPerson.name = filename
+            myPerson.image = uploaded_file
+            myPerson.save()
+        return redirect("myPerson:index")
+    return render(request, 'app01/myPersonAdd.html')
 
 #最简单版本的文件上传
 # 处理上传文件的函数
