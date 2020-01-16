@@ -40,7 +40,10 @@ INSTALLED_APPS = [
     'app01.apps.App01Config',
     'app02.apps.App02Config',
     'app03.apps.App03Config',
-    'app04.apps.App04Config'
+    'app04.apps.App04Config',
+    'app05.apps.App05Config',
+    'app06.apps.App06Config'
+
 ]
 
 MIDDLEWARE = [
@@ -111,12 +114,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-#######################################################################
-##########################设置session#################################
-#######################################################################
-SESSION_COOKIE_AGE =10*60# 设置过期时间10分钟，默认为两周
-# SESSION_SAVE_EVERY_REQUEST = True
-SESSION_EXPIRE_AT_BROWSER_CLOSE =True# 设置关闭浏览器时失效
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
@@ -226,3 +224,13 @@ LOGGING = {
         }
     }
 }
+#######################################################################
+##########################设置session#################################
+#######################################################################
+# SESSION_COOKIE_AGE =10*60# 设置过期时间10分钟，默认为两周
+# SESSION_SAVE_EVERY_REQUEST = True
+# SESSION_EXPIRE_AT_BROWSER_CLOSE =True# 设置关闭浏览器时失效
+#######################################################################
+########################### 认证登陆相关#################################
+#######################################################################
+LOGIN_URL = '/app05/login/'#如果用户还没有登录，默认会跳转到‘/accounts/login/’

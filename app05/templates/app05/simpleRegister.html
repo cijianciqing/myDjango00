@@ -1,0 +1,41 @@
+{% extends 'BootstrapTemplate.html' %}
+
+
+{% block MyBootstrapBody %}
+    <div class="container">
+        <div class="form-row">
+            <div class="col-6 offset-3">
+                <form action="{% url 'app05:basicRegister' %}" method="post" novalidate>
+                    {% csrf_token %}
+
+                    <div class="form-group">
+                        {{ form_obj.name.label }}
+                        {{ form_obj.name }}
+                        <span class="help-block">{{ form_obj.name.errors }}</span>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        {{ form_obj.pwd.label }}
+                        {{ form_obj.pwd }}
+                        {% if form_obj.pwd.errors %}
+                            <div class="alert alert-warning" role="alert">
+                                {{ form_obj.pwd.errors }}
+                            </div>
+                        {% endif %}
+
+                        <div class="valid-feedback">
+                            Looks good02!
+                        </div>
+                    </div>
+
+
+                    <button type="submit" class="btn btn-primary">Sign Up</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

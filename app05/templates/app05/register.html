@@ -1,0 +1,51 @@
+{% extends 'BootstrapTemplate.html' %}
+
+
+{% block MyBootstrapBody %}
+    <div class="container">
+        <div class="row">
+            <div class="col-6 offset-3">
+                <form action="{% url 'app05:register' %}" method="post" novalidate>
+                    {% csrf_token %}
+
+                    <div class="form-group">
+                        {{ form_obj.name.label }}
+                        {{ form_obj.name }}
+
+                        <span class="help-block">{{ form_obj.name.errors }}</span>
+                    </div>
+
+                    <div class="form-group">
+                        {{ form_obj.pwd.label }}
+                        {{ form_obj.pwd }}
+                        <span class="help-block">{{ form_obj.pwd.errors }}</span>
+                    </div>
+
+                    <div class="form-group">
+                        {{ form_obj.re_pwd.label }}
+                        {{ form_obj.re_pwd }}
+                        <span class="help-block">{{ form_obj.re_pwd.errors }}</span>
+                    </div>
+
+                    <div class="form-group">
+                        {{ form_obj.email.label }}
+                        {{ form_obj.email }}
+                        <span class="help-block">{{ form_obj.email.errors }}</span>
+                    </div>
+
+                    <div class="form-group">
+                        {{ form_obj.mobile.label }}
+                        {{ form_obj.mobile }}
+                        <span class="help-block">{{ form_obj.mobile.errors }}</span>
+                    </div>
+                    <div class="form-group ">
+                        {{ form_obj.city.label }}
+                        {{ form_obj.city }}
+                        <span class="help-block">{{ form_obj.city.errors }}</span>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Sign Up</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

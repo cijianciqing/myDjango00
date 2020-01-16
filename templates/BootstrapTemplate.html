@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-{% load static %}
   <head>
+    {% load static %}
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="{% static 'Font-Awesome-5.6.3/css/all.css ' %}">
     <link rel="stylesheet" href="{% static 'sweetalert/sweetalert.css ' %}">
     {#    <!-- Custom styles for this template -->#}
-
+    {% block MyBootstrapCss %}{% endblock %}
     {##}
     {#    <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->#}
     <script src="{% static "jquery/jquery-3.4.1.min.js" %}" type="text/javascript"></script>
@@ -23,10 +23,10 @@
     <script src="{% static "bootstrap4.3.1/js/bootstrap.min.js" %}"></script>
     <script src="{% static "bootstraptable1.15.5/bootstrap-table.min.js" %}"></script>
     <script src="{% static "sweetalert/sweetalert.min.js" %}"></script>
-
+    {% block MyBootstrapJS %}{% endblock %}
   </head>
   <body>
-    <h2>Welcom to Bootstrap3.3.7!!!!!</h2>
+    {% block MyBootstrapBody %}{% endblock %}
   </body>
 </html>
 
